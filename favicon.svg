@@ -1,10 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <defs>
-    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#22d3ee;stop-opacity:1"/>
-      <stop offset="100%" style="stop-color:#0891b2;stop-opacity:1"/>
-    </linearGradient>
+    <mask id="cat-mask">
+      <rect width="100%" height="100%" fill="white" />
+      <circle cx="35" cy="55" r="6" fill="black" />
+      <circle cx="65" cy="55" r="6" fill="black" />
+    </mask>
   </defs>
-  <rect width="32" height="32" rx="8" fill="#0f0f14"/>
-  <text x="16" y="22" font-family="system-ui,-apple-system,sans-serif" font-size="16" font-weight="800" fill="url(#g)" text-anchor="middle" letter-spacing="-0.5">DP</text>
+  <g transform="translate(0, 5)">
+    <path
+      d="M 20 80 Q 20 40 30 40 L 25 10 L 40 25 Q 50 20 60 25 L 75 10 L 70 40 Q 80 40 80 80 Z"
+      fill="#22d3ee"
+      mask="url(#cat-mask)"
+    />
+  </g>
 </svg>
