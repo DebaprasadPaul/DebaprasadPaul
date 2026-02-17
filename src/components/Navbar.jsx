@@ -112,11 +112,32 @@ export default function Navbar() {
                             onClick={(e) => handleNavClick(e, '#hero')}
                             className="group flex items-center gap-2"
                         >
-                            <span className="text-base font-bold text-text-primary tracking-tight group-hover:text-accent-cyan transition-colors duration-300">
-                                DP
-                            </span>
+                            <div className="w-10 h-10 -ml-2 flex items-center justify-center text-text-primary group-hover:text-accent-cyan transition-colors duration-300">
+                                <svg width="100%" height="100%" viewBox="0 0 100 100" className="overflow-visible">
+                                    <defs>
+                                        <mask id="nav-cat-mask">
+                                            <rect width="100" height="100" fill="white" />
+                                            <motion.circle
+                                                cx="35" cy="55" r="6" fill="black"
+                                                animate={{ scaleY: [1, 0.1, 1, 1, 1] }}
+                                                transition={{ duration: 4, repeat: Infinity, times: [0, 0.05, 0.1, 0.5, 1] }}
+                                            />
+                                            <motion.circle
+                                                cx="65" cy="55" r="6" fill="black"
+                                                animate={{ scaleY: [1, 0.1, 1, 1, 1] }}
+                                                transition={{ duration: 4, repeat: Infinity, times: [0, 0.05, 0.1, 0.5, 1], delay: 0.1 }}
+                                            />
+                                        </mask>
+                                    </defs>
+                                    <path
+                                        d="M 20 80 Q 20 40 30 40 L 25 10 L 40 25 Q 50 20 60 25 L 75 10 L 70 40 Q 80 40 80 80 Z"
+                                        fill="currentColor"
+                                        mask="url(#nav-cat-mask)"
+                                    />
+                                </svg>
+                            </div>
                             <span className="hidden sm:inline text-[10px] text-text-muted font-medium tracking-wider uppercase">
-                                Portfolio
+                                GlitchedFolio
                             </span>
                         </a>
 

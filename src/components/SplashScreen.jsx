@@ -8,7 +8,7 @@ export default function SplashScreen() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Simulate loading progress
+        // Simulate complex loading progress (Speed Ramp: Slow -> Fast -> Slow)
         const timer = setInterval(() => {
             setProgress((prev) => {
                 if (prev >= 100) {
@@ -16,113 +16,132 @@ export default function SplashScreen() {
                     setIsLoaded(true);
                     return 100;
                 }
-                return prev + 1; // 1% every ~20ms = ~2s total load time
+
+                // Speed Ramp Logic (~0.7s Total)
+                let increment = 1;
+                if (prev < 30) increment = 1.5;      // Build momentum (300ms)
+                else if (prev < 80) increment = 5.0; // Hyper-drive (150ms)
+                else increment = 2.0;                // Smooth finish (150ms)
+
+                // Ensure we don't overshoot 100 abruptly
+                return Math.min(prev + increment, 100);
             });
-        }, 20);
+        }, 15); // ~66 FPS
 
         return () => clearInterval(timer);
     }, []);
 
     return (
         <div className="fixed inset-0 bg-dark-bg flex flex-col items-center justify-center z-50 overflow-hidden">
-            <AnimatePresence>
-                {!isLoaded ? (
+            {/* Persistent Logo Container - Never Unmounts */}
+            <div className="relative flex flex-col items-center justify-center mb-8">
+                <div className="relative w-32 h-32 flex items-center justify-center">
+                    {/* Circular Arc Loader */}
+                    <svg className="absolute inset-0 w-full h-full transform -rotate-90">
+                        {/* Background Circle */}
+                        <circle
+                            cx="64"
+                            cy="64"
+                            r="58"
+                            stroke="rgba(34, 211, 238, 0.1)"
+                            strokeWidth="1.5"
+                            fill="none"
+                        />
+                        {/* Animated Progress Circle */}
+                        <motion.circle
+                            cx="64"
+                            cy="64"
+                            r="58"
+                            stroke="#22d3ee"
+                            strokeWidth="1.5"
+                            fill="none"
+                            strokeDasharray="364" // 2 * PI * 58 ≈ 364
+                            strokeDashoffset="364"
+                            animate={{ strokeDashoffset: 364 - (364 * progress) / 100 }}
+                            transition={{ duration: 0.1, ease: "linear" }} // Smooth updates between states
+                            strokeLinecap="round"
+                        />
+                    </svg>
+
+                    {/* Animated Cat Logo */}
                     <motion.div
-                        key="loader"
-                        className="relative flex flex-col items-center justify-center"
-                        exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.5 } }}
+                        className="absolute inset-0 flex items-center justify-center"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.5 }}
                     >
-                        {/* Logo Container */}
-                        <div className="relative w-32 h-32 flex items-center justify-center mb-8">
-                            {/* Circular Arc Loader */}
-                            <svg className="absolute inset-0 w-full h-full transform -rotate-90">
-                                <circle
-                                    cx="64"
-                                    cy="64"
-                                    r="58"
-                                    stroke="rgba(34, 211, 238, 0.1)"
-                                    strokeWidth="4"
-                                    fill="none"
-                                />
-                                <motion.circle
-                                    cx="64"
-                                    cy="64"
-                                    r="58"
-                                    stroke="#22d3ee"
-                                    strokeWidth="4"
-                                    fill="none"
-                                    strokeDasharray="364" // 2 * PI * 58 ≈ 364
-                                    strokeDashoffset="364"
-                                    animate={{ strokeDashoffset: 364 - (364 * progress) / 100 }}
-                                    transition={{ duration: 0.1, ease: "linear" }}
-                                    strokeLinecap="round"
-                                />
-                            </svg>
+                        <svg width="60" height="60" viewBox="0 0 100 100" className="overflow-visible">
+                            <defs>
+                                <mask id="cat-mask">
+                                    <rect width="100" height="100" fill="white" />
+                                    {/* Eyes (Cutout) */}
+                                    <motion.circle
+                                        cx="35" cy="55" r="5" fill="black"
+                                        animate={{ scaleY: [1, 0.1, 1, 1, 1] }}
+                                        transition={{ duration: 4, repeat: Infinity, times: [0, 0.05, 0.1, 0.5, 1] }}
+                                    />
+                                    <motion.circle
+                                        cx="65" cy="55" r="5" fill="black"
+                                        animate={{ scaleY: [1, 0.1, 1, 1, 1] }}
+                                        transition={{ duration: 4, repeat: Infinity, times: [0, 0.05, 0.1, 0.5, 1], delay: 0.1 }}
+                                    />
+                                </mask>
+                            </defs>
 
-                            {/* Logo Text */}
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.5 }}
-                                className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-accent-cyan to-cyan-600"
-                            >
-                                DP
-                            </motion.div>
-                        </div>
+                            {/* Cat Head */}
+                            <motion.path
+                                d="M 20 80 Q 20 40 30 40 L 25 10 L 40 25 Q 50 20 60 25 L 75 10 L 70 40 Q 80 40 80 80 Z"
+                                fill="#22d3ee"
+                                mask="url(#cat-mask)"
+                                initial={{ y: 40, opacity: 0 }}
+                                animate={{ y: 5, opacity: 1 }}
+                                transition={{ type: "spring", stiffness: 100, damping: 15, delay: 0.2 }}
+                            />
+                        </svg>
+                    </motion.div>
+                </div>
+            </div>
 
-                        {/* Percentage Text */}
+            {/* Swappable Content: Percentage -> Buttons */}
+            <div className="h-24 flex items-center justify-center w-full">
+                <AnimatePresence mode="wait">
+                    {!isLoaded ? (
                         <motion.div
-                            className="text-accent-cyan font-mono text-lg tracking-wider"
+                            key="progress"
+                            className="text-accent-cyan font-mono text-lg tracking-wider absolute"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
+                            exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.3 } }}
                         >
-                            {progress}%
+                            {Math.round(progress)}%
                         </motion.div>
-                    </motion.div>
-                ) : (
-                    <motion.div
-                        key="actions"
-                        className="flex flex-col items-center gap-6"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                    >
+                    ) : (
                         <motion.div
-                            initial={{ scale: 0.8, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ duration: 0.5, delay: 0.1 }}
-                            className="mb-8"
+                            key="actions"
+                            className="flex flex-col items-center gap-4 w-full"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5 }}
                         >
-                            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 text-center">
-                                Debaprasad Paul
-                            </h1>
-                            <p className="text-text-secondary text-center text-lg">
-                                Financial Operations & Systems Architect
-                            </p>
-                        </motion.div>
-
-                        <div className="flex flex-col md:flex-row gap-6 w-full max-w-md px-6">
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={() => navigate('/site')}
-                                className="w-full py-4 px-8 bg-accent-cyan text-dark-bg font-bold rounded-xl shadow-[0_0_20px_rgba(34,211,238,0.3)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all text-lg"
+                                className="w-48 py-3 px-8 bg-accent-cyan text-dark-bg font-bold rounded-full shadow-[0_0_20px_rgba(34,211,238,0.3)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all text-lg tracking-wider"
                             >
                                 View Work
                             </motion.button>
 
-                            <motion.button
-                                whileHover={{ scale: 1.05, borderColor: '#22d3ee', color: '#22d3ee' }}
-                                whileTap={{ scale: 0.95 }}
+                            <button
                                 onClick={() => navigate('/admin')}
-                                className="w-full py-4 px-8 bg-transparent border border-dark-border text-text-secondary font-semibold rounded-xl hover:bg-dark-border/30 transition-all text-lg"
+                                className="text-text-secondary/40 hover:text-accent-cyan/80 text-xs font-medium tracking-widest uppercase transition-colors"
                             >
-                                Admin Login
-                            </motion.button>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                                Admin
+                            </button>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
         </div>
     );
 }
