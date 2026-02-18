@@ -17,9 +17,9 @@ export default function ResumeModal({ isOpen, onClose, resumes }) {
             onClick={onClose}
           />
 
-          {/* Bottom-right chatbot-style panel */}
+          {/* Bottom-right chatbot-style panel (Mobile: Bottom Sheet) */}
           <motion.div
-            className="fixed bottom-6 right-6 z-50 w-80 bg-dark-card border border-dark-border rounded-2xl shadow-2xl shadow-black/40 overflow-hidden"
+            className="fixed bottom-0 md:bottom-6 left-0 md:left-auto md:right-6 z-50 w-full md:w-80 bg-dark-card border-t md:border border-dark-border rounded-t-2xl md:rounded-2xl shadow-2xl shadow-black/40 overflow-hidden"
             initial={{ opacity: 0, y: 80, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 80, scale: 0.9 }}
