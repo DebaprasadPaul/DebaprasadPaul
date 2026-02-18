@@ -12,15 +12,12 @@
     "deploy": "gh-pages -d dist -r https://github.com/DebaprasadPaul/DebaprasadPaul.git"
   },
   "dependencies": {
-    "@react-three/fiber": "^9.5.0",
     "@supabase/supabase-js": "^2.95.3",
     "framer-motion": "^12.34.0",
     "lucide-react": "^0.568.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-helmet-async": "^2.0.5",
-    "react-router-dom": "^7.13.0",
-    "three": "^0.182.0"
+    "react-router-dom": "^7.13.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
