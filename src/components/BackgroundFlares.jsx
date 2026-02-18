@@ -11,7 +11,8 @@ export default function BackgroundFlares() {
             window.matchMedia('(pointer: coarse)').matches;
 
         setIsTouchDevice(isTouch);
-        if (isTouch) return;
+        // if (isTouch) return; // Removed to allow animation on mobile
+
 
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -104,7 +105,8 @@ export default function BackgroundFlares() {
                 const dy = mouseY - p.baseY;
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 const maxDist = 300;
-                const influence = dist < maxDist ? (1 - dist / maxDist) * p.mouseInfluence : 0;
+                // Only calculate mouse influence on non-touch devices
+                const influence = (!isTouch && dist < maxDist) ? (1 - dist / maxDist) * p.mouseInfluence : 0;
 
                 p.x = p.baseX + driftX + dx * influence * 8;
                 p.y = p.baseY + driftY + dy * influence * 8;

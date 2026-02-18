@@ -11,15 +11,7 @@ export default function Hero({ profile, metrics }) {
         <section id="hero" className="min-h-screen flex items-center justify-center px-6 pt-24 pb-20 relative">
             <div className="max-w-5xl mx-auto text-center">
 
-                {/* Tagline */}
-                <motion.p
-                    className="text-accent-cyan text-sm font-semibold tracking-[0.25em] uppercase mb-8"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                >
-                    {profile.tagline}
-                </motion.p>
+                {/* Name - Tagline removed */}
 
                 {/* Name */}
                 <motion.h1
