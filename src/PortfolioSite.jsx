@@ -27,7 +27,7 @@ export default function PortfolioSite() {
             <Navbar />
 
             {/* Content layer */}
-            <div className="relative z-10">
+            <main className="relative z-10">
                 {/* Hero loads immediately */}
                 <Hero profile={profile} metrics={metrics} />
 
@@ -42,7 +42,7 @@ export default function PortfolioSite() {
                     <ContactSection profile={profile} resumes={resumes} />
                     {/* Footer merged into ContactSection */}
                 </Suspense>
-            </div>
+            </main>
         </div>
     );
 }
