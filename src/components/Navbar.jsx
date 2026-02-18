@@ -27,23 +27,46 @@ export default function Navbar() {
     useEffect(() => {
         const sectionIds = ['hero', 'philosophy', 'casestudy', 'blueprint', 'experience', 'skills', 'ai-engineering', 'contact'];
         const observers = [];
+        const observedIds = new Set();
+        let intervalId;
 
-        sectionIds.forEach((id) => {
-            const el = document.getElementById(id);
-            if (!el) return;
+        const connectObservers = () => {
+            let allFound = true;
 
-            const observer = new IntersectionObserver(
-                ([entry]) => {
-                    if (entry.isIntersecting) setActiveSection(id);
-                },
-                { rootMargin: '-40% 0px -55% 0px' }
-            );
+            sectionIds.forEach((id) => {
+                if (observedIds.has(id)) return;
 
-            observer.observe(el);
-            observers.push(observer);
-        });
+                const el = document.getElementById(id);
+                if (el) {
+                    const observer = new IntersectionObserver(
+                        ([entry]) => {
+                            if (entry.isIntersecting) setActiveSection(id);
+                        },
+                        { rootMargin: '-45% 0px -45% 0px' }
+                    );
+                    observer.observe(el);
+                    observers.push(observer);
+                    observedIds.add(id);
+                } else {
+                    allFound = false;
+                }
+            });
 
-        return () => observers.forEach((o) => o.disconnect());
+            if (allFound) {
+                clearInterval(intervalId);
+            }
+        };
+
+        // Initial check
+        connectObservers();
+
+        // Poll for lazy-loaded sections
+        intervalId = setInterval(connectObservers, 500);
+
+        return () => {
+            clearInterval(intervalId);
+            observers.forEach((o) => o.disconnect());
+        };
     }, []);
 
     // Lock body scroll on mobile menu
@@ -157,9 +180,10 @@ export default function Navbar() {
                                         </span>
                                         {isActive && (
                                             <motion.span
-                                                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-accent-cyan"
+                                                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-accent-cyan z-10"
+                                                style={{ boxShadow: '0 0 10px rgba(34, 211, 238, 1)' }}
                                                 layoutId="nav-dot"
-                                                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                                                transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                                             />
                                         )}
                                     </a>

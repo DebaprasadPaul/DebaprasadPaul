@@ -41,7 +41,7 @@ export default function SystemBlueprint() {
   const activeNodeData = [...topRow, ...bottomRow].find(n => n.id === activeNode);
 
   return (
-    <section id="blueprint" className="min-h-screen flex items-center justify-center px-6 py-12">
+    <section id="blueprint" className="flex items-center justify-center px-6 py-24">
       <div className="max-w-6xl mx-auto">
 
         <motion.h2

@@ -10,7 +10,7 @@ const SystemBlueprint = lazy(() => import('./sections/SystemBlueprint'));
 const Experience = lazy(() => import('./sections/Experience'));
 const Skills = lazy(() => import('./sections/Skills'));
 const AIEngineering = lazy(() => import('./sections/AIEngineering'));
-const ContactResume = lazy(() => import('./components/ContactResume'));
+const ContactSection = lazy(() => import('./components/ContactSection'));
 const Footer = lazy(() => import('./components/Footer'));
 
 import { usePortfolioData } from './hooks/usePortfolioData';
@@ -39,8 +39,8 @@ export default function PortfolioSite() {
                     <Experience />
                     <Skills />
                     <AIEngineering />
-                    <ContactResume profile={profile} resumes={resumes} />
-                    <Footer profile={profile} />
+                    <ContactSection profile={profile} resumes={resumes} />
+                    {/* Footer merged into ContactSection */}
                 </Suspense>
             </div>
         </div>

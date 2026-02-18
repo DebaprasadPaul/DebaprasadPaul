@@ -12,8 +12,8 @@ export default function ManageResumes() {
     const [totalSize, setTotalSize] = useState(0);
     const [showAddForm, setShowAddForm] = useState(false);
     const [message, setMessage] = useState(null);
-    const MAX_RESUMES = 6;
-    const MAX_SELECTED = 3;
+    const MAX_RESUMES = 20;
+    const MAX_SELECTED = 20;
     const MAX_STORAGE_MB = 400;
 
     useEffect(() => {
@@ -191,7 +191,7 @@ export default function ManageResumes() {
         <div className="min-h-screen bg-dark-bg p-8">
             <div className="max-w-4xl mx-auto">
                 <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-3xl font-bold text-white">Manage Resumes</h1>
+                    <h1 className="text-3xl font-bold text-white">Manage Documents</h1>
                     <Link to="/admin/dashboard" className="px-4 py-2 border border-dark-border text-text-secondary rounded-lg hover:text-white transition-colors">
                         Back to Dashboard
                     </Link>
@@ -250,11 +250,11 @@ export default function ManageResumes() {
                         onClick={() => setShowAddForm(!showAddForm)}
                         className="mb-6 bg-accent-cyan text-dark-bg px-4 py-2 rounded font-bold hover:bg-cyan-400 transition-colors"
                     >
-                        {showAddForm ? 'Cancel' : '+ Add New Resume'}
+                        {showAddForm ? 'Cancel' : '+ Add New Document'}
                     </button>
                 ) : (
                     <div className="mb-6 p-3 bg-yellow-500/10 text-yellow-500 border border-yellow-500/30 rounded-lg inline-block text-sm">
-                        Max capacity reached ({MAX_RESUMES} resumes). Delete some to add more.
+                        Max capacity reached ({MAX_RESUMES} documents). Delete some to add more.
                     </div>
                 )}
 
@@ -332,7 +332,7 @@ export default function ManageResumes() {
                     ))}
                     {resumes.length === 0 && (
                         <div className="text-center text-text-secondary py-8">
-                            No resumes found. Add one above!
+                            No documents found. Add one above!
                         </div>
                     )}
                 </div>

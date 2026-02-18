@@ -33,7 +33,7 @@ export default function ResumeModal({ isOpen, onClose, resumes }) {
             {/* Header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-dark-border">
               <h3 className="text-base font-semibold text-text-primary">
-                Select Resume
+                Documents
               </h3>
               <button
                 onClick={onClose}
@@ -101,7 +101,7 @@ export default function ResumeModal({ isOpen, onClose, resumes }) {
               ))}
               {resumes.filter(r => r.is_selected).length === 0 && (
                 <div className="text-center text-text-secondary py-4 text-sm">
-                  No resumes selected to display.
+                  No documents available.
                 </div>
               )}
             </div>

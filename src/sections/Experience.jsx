@@ -49,7 +49,7 @@ export default function Experience() {
     const [hoveredIndex, setHoveredIndex] = useState(null);
 
     return (
-        <section id="experience" className="px-6 py-20">
+        <section id="experience" className="px-6 py-24">
             <div className="max-w-4xl mx-auto">
                 <motion.h2
                     className="text-4xl md:text-5xl font-bold text-text-primary mb-6 text-center"

@@ -27,7 +27,7 @@ const CATEGORIES = [
 
 export default function Skills() {
     return (
-        <section id="skills" className="px-6 py-20">
+        <section id="skills" className="px-6 py-24">
             <div className="max-w-6xl mx-auto">
                 <motion.h2
                     className="text-4xl md:text-5xl font-bold text-text-primary mb-16 text-center"
