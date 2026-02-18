@@ -11,7 +11,7 @@ const Experience = lazy(() => import('./sections/Experience'));
 const Skills = lazy(() => import('./sections/Skills'));
 const AIEngineering = lazy(() => import('./sections/AIEngineering'));
 const ContactSection = lazy(() => import('./components/ContactSection'));
-const Footer = lazy(() => import('./components/Footer'));
+
 
 import { usePortfolioData } from './hooks/usePortfolioData';
 
@@ -27,7 +27,7 @@ export default function PortfolioSite() {
             <Navbar />
 
             {/* Content layer */}
-            <main className="relative z-10">
+            <div className="relative z-10">
                 {/* Hero loads immediately */}
                 <Hero profile={profile} metrics={metrics} />
 
@@ -42,7 +42,7 @@ export default function PortfolioSite() {
                     <ContactSection profile={profile} resumes={resumes} />
                     {/* Footer merged into ContactSection */}
                 </Suspense>
-            </main>
+            </div>
         </div>
     );
 }

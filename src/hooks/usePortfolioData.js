@@ -42,14 +42,15 @@ export function usePortfolioData() {
     const [profile, setProfile] = useState(DEFAULT_PROFILE);
     const [metrics, setMetrics] = useState(DEFAULT_METRICS);
     const [resumes, setResumes] = useState(DEFAULT_RESUMES);
-    const [loading, setLoading] = useState(false); // Default to false to show content immediately
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function fetchData() {
             // If no Supabase URL is set, just use defaults
-            if (!import.meta.env.VITE_SUPABASE_URL) return;
-
-            setLoading(true); // measurable loading state for background sync
+            if (!import.meta.env.VITE_SUPABASE_URL) {
+                setLoading(false);
+                return;
+            }
 
             try {
                 const [profileRes, metricsRes, resumesRes] = await Promise.all([
@@ -69,10 +70,7 @@ export function usePortfolioData() {
             }
         }
 
-        // Defer fetching to allow initial paint (LCP) to finish first
-        const timer = setTimeout(fetchData, 100);
-
-        return () => clearTimeout(timer);
+        fetchData();
     }, []);
 
     return { profile, metrics, resumes, loading };
