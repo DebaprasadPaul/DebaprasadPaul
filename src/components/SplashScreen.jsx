@@ -8,135 +8,76 @@ export default function SplashScreen() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Simulate complex loading progress (Speed Ramp: Slow -> Fast -> Slow)
         const timer = setInterval(() => {
-            setProgress((prev) => {
+            setProgress(prev => {
                 if (prev >= 100) {
                     clearInterval(timer);
                     setIsLoaded(true);
                     return 100;
                 }
-
-                // Speed Ramp Logic (~0.7s Total)
-                let increment = 1;
-                if (prev < 30) increment = 1.5;      // Build momentum (300ms)
-                else if (prev < 80) increment = 5.0; // Hyper-drive (150ms)
-                else increment = 2.0;                // Smooth finish (150ms)
-
-                // Ensure we don't overshoot 100 abruptly
-                return Math.min(prev + increment, 100);
+                return Math.min(prev + (prev < 80 ? 4 : 2), 100);
             });
-        }, 15); // ~66 FPS
-
+        }, 20);
         return () => clearInterval(timer);
     }, []);
 
     return (
-        <div className="fixed inset-0 bg-dark-bg flex flex-col items-center justify-center z-50 overflow-hidden">
-            {/* Persistent Logo Container - Never Unmounts */}
-            <div className="relative flex flex-col items-center justify-center mb-8">
-                <div className="relative w-32 h-32 flex items-center justify-center">
-                    {/* Circular Arc Loader */}
-                    <svg className="absolute inset-0 w-full h-full transform -rotate-90">
-                        {/* Background Circle */}
-                        <circle
-                            cx="64"
-                            cy="64"
-                            r="58"
-                            stroke="rgba(34, 211, 238, 0.1)"
-                            strokeWidth="1.5"
-                            fill="none"
-                        />
-                        {/* Animated Progress Circle */}
-                        <motion.circle
-                            cx="64"
-                            cy="64"
-                            r="58"
-                            stroke="#22d3ee"
-                            strokeWidth="1.5"
-                            fill="none"
-                            strokeDasharray="364" // 2 * PI * 58 ≈ 364
-                            strokeDashoffset="364"
-                            animate={{ strokeDashoffset: 364 - (364 * progress) / 100 }}
-                            transition={{ duration: 0.1, ease: "linear" }} // Smooth updates between states
-                            strokeLinecap="round"
-                        />
-                    </svg>
+        <div className="fixed inset-0 bg-retro-bg flex flex-col items-center justify-center z-50 overflow-hidden">
+            {/* Retro border frame */}
+            <div className="absolute inset-4 border-2 border-retro-wood/20 pointer-events-none" />
 
-                    {/* Animated Cat Logo */}
-                    <motion.div
-                        className="absolute inset-0 flex items-center justify-center"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5 }}
-                    >
-                        <svg width="60" height="60" viewBox="0 0 100 100" className="overflow-visible">
-                            <defs>
-                                <mask id="cat-mask">
-                                    <rect width="100" height="100" fill="white" />
-                                    {/* Eyes (Cutout) */}
-                                    <motion.circle
-                                        cx="35" cy="55" r="5" fill="black"
-                                        animate={{ scaleY: [1, 0.1, 1, 1, 1] }}
-                                        transition={{ duration: 4, repeat: Infinity, times: [0, 0.05, 0.1, 0.5, 1] }}
-                                    />
-                                    <motion.circle
-                                        cx="65" cy="55" r="5" fill="black"
-                                        animate={{ scaleY: [1, 0.1, 1, 1, 1] }}
-                                        transition={{ duration: 4, repeat: Infinity, times: [0, 0.05, 0.1, 0.5, 1], delay: 0.1 }}
-                                    />
-                                </mask>
-                            </defs>
-
-                            {/* Cat Head */}
-                            <motion.path
-                                d="M 20 80 Q 20 40 30 40 L 25 10 L 40 25 Q 50 20 60 25 L 75 10 L 70 40 Q 80 40 80 80 Z"
-                                fill="#22d3ee"
-                                mask="url(#cat-mask)"
-                                initial={{ y: 40, opacity: 0 }}
-                                animate={{ y: 5, opacity: 1 }}
-                                transition={{ type: "spring", stiffness: 100, damping: 15, delay: 0.2 }}
-                            />
-                        </svg>
-                    </motion.div>
-                </div>
+            {/* Pixel bicycle */}
+            <div className="mb-8">
+                <svg width="80" height="60" viewBox="0 0 50 35">
+                    <circle cx="8" cy="24" r="7" fill="none" stroke="#3B2F20" strokeWidth="1.5" />
+                    <circle cx="38" cy="24" r="7" fill="none" stroke="#3B2F20" strokeWidth="1.5" />
+                    <line x1="8" y1="24" x2="22" y2="10" stroke="#5F9EA0" strokeWidth="1.5" />
+                    <line x1="22" y1="10" x2="38" y2="24" stroke="#5F9EA0" strokeWidth="1.5" />
+                    <line x1="22" y1="10" x2="22" y2="18" stroke="#5F9EA0" strokeWidth="1.5" />
+                    <line x1="8" y1="24" x2="22" y2="18" stroke="#5F9EA0" strokeWidth="1" />
+                    <line x1="22" y1="18" x2="38" y2="24" stroke="#5F9EA0" strokeWidth="1" />
+                    <rect x="19" y="7" width="6" height="2" fill="#3B2F20" />
+                    <line x1="36" y1="8" x2="40" y2="8" stroke="#3B2F20" strokeWidth="1.5" />
+                    <line x1="36" y1="8" x2="38" y2="24" stroke="#3B2F20" strokeWidth="0.8" />
+                </svg>
             </div>
 
-            {/* Swappable Content: Percentage -> Buttons */}
-            <div className="h-24 flex items-center justify-center w-full">
+            {/* Title */}
+            <h1 className="pixel-font text-retro-bark text-xs mb-2 tracking-wider">THE JOURNEY</h1>
+            <p className="text-retro-wood text-xs mb-6">From home to where we are today</p>
+
+            {/* Loading / Action */}
+            <div className="h-16 flex items-center">
                 <AnimatePresence mode="wait">
                     {!isLoaded ? (
-                        <motion.div
-                            key="progress"
-                            className="text-accent-cyan font-mono text-lg tracking-wider absolute"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.3 } }}
-                        >
-                            {Math.round(progress)}%
+                        <motion.div key="loading" className="text-center" exit={{ opacity: 0 }}>
+                            {/* Pixel progress bar */}
+                            <div className="w-48 h-3 border-2 border-retro-wood bg-retro-cream mb-2">
+                                <div
+                                    className="h-full bg-retro-teal transition-all duration-100"
+                                    style={{ width: `${progress}%` }}
+                                />
+                            </div>
+                            <p className="pixel-font text-[8px] text-retro-wood">{Math.round(progress)}%</p>
                         </motion.div>
                     ) : (
                         <motion.div
-                            key="actions"
-                            className="flex flex-col items-center gap-4 w-full"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5 }}
+                            key="ready"
+                            className="flex flex-col items-center gap-3"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
                         >
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
+                            <button
                                 onClick={() => navigate('/site')}
-                                className="w-48 py-3 px-8 bg-accent-cyan text-dark-bg font-bold rounded-full shadow-[0_0_20px_rgba(34,211,238,0.3)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all text-lg tracking-wider"
+                                className="retro-card px-6 py-2 pixel-font text-[9px] text-retro-bark hover:border-retro-teal transition-colors"
                             >
-                                View Work
-                            </motion.button>
-
+                                🚲 START JOURNEY
+                            </button>
                             <button
                                 onClick={() => navigate('/admin')}
-                                className="text-text-secondary/40 hover:text-accent-cyan/80 text-xs font-medium tracking-widest uppercase transition-colors"
+                                className="text-[9px] text-retro-dirt/40 hover:text-retro-wood transition-colors"
                             >
-                                Admin
+                                admin
                             </button>
                         </motion.div>
                     )}

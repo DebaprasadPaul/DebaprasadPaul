@@ -12,6 +12,7 @@
     "deploy": "gh-pages -d dist -r https://github.com/DebaprasadPaul/DebaprasadPaul.git"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@supabase/supabase-js": "^2.95.3",
     "framer-motion": "^12.34.0",
     "lucide-react": "^0.568.0",

@@ -1,12 +1,11 @@
-/* ── Google Font Import ── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+/* ── Google Font Imports ── */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
-/* ── Global Reset & Defaults ── */
 *,
 *::before,
 *::after {
@@ -17,56 +16,91 @@
 
 html {
     scroll-behavior: smooth;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: #0F0F14;
-    color: #F9FAFB;
-    line-height: 1.6;
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #E8DCC6;
+    color: #3B2F20;
+    line-height: 1.5;
     overflow-x: hidden;
 }
 
-/* ── Selection Colors ── */
-::selection {
-    background-color: rgba(34, 211, 238, 0.25);
-    color: #F9FAFB;
+/* ── Pixel / Retro Feel ── */
+.pixel-font {
+    font-family: 'Press Start 2P', monospace;
 }
 
-/* ── Scrollbar ── */
+.retro-card {
+    background: #FFF8E7;
+    border: 3px solid #5C4033;
+    box-shadow: 4px 4px 0 #3B2F20;
+    padding: 14px 16px;
+}
+
+.retro-card:hover {
+    box-shadow: 5px 5px 0 #2E8B57;
+    border-color: #2E8B57;
+}
+
+::selection {
+    background-color: rgba(46, 139, 87, 0.3);
+    color: #3B2F20;
+}
+
 ::-webkit-scrollbar {
-    width: 5px;
+    width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #0F0F14;
+    background: #DDD0B8;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #2A2A3A;
-    border-radius: 10px;
+    background: #8B7355;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #22D3EE;
+    background: #5C4033;
 }
 
-/* ── Link defaults ── */
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
-/* ── Glow utility for accent elements ── */
-.glow-cyan {
-    box-shadow: 0 0 20px rgba(34, 211, 238, 0.12), 0 0 60px rgba(34, 211, 238, 0.06);
-}
-
-/* ── Smooth focus outlines for accessibility ── */
 :focus-visible {
-    outline: 2px solid #22D3EE;
+    outline: 2px solid #5C4033;
     outline-offset: 2px;
-    border-radius: 4px;
+}
+
+/* ── SLOW falling leaves ── */
+@keyframes leafDrift {
+    0% {
+        transform: translateY(-5vh) translateX(0px) rotate(0deg);
+        opacity: 0;
+    }
+
+    5% {
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: translateY(50vh) translateX(30px) rotate(180deg);
+        opacity: 0.4;
+    }
+
+    100% {
+        transform: translateY(105vh) translateX(-15px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.leaf {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1;
+    animation: leafDrift linear infinite;
+    will-change: transform;
+}
+
+/* ── Admin override ── */
+.admin-panel {
+    background-color: #0F0F14 !important;
+    color: #F9FAFB !important;
 }

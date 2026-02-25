@@ -68,6 +68,14 @@ export default function AdminDashboard() {
                             Update Metrics →
                         </Link>
                     </div>
+
+                    <div className="p-6 bg-dark-card border border-dark-border rounded-xl">
+                        <h2 className="text-xl font-semibold mb-4 text-white">Page Content</h2>
+                        <p className="text-text-secondary text-sm mb-6">Edit the Story, Skills, and Work dialog content.</p>
+                        <Link to="/admin/content" className="inline-block text-accent-cyan text-sm font-medium hover:underline">
+                            Edit Content →
+                        </Link>
+                    </div>
                 </div>
             </motion.div>
         </div>
